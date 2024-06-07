@@ -48,7 +48,7 @@ export const POST = async ({ request }) => {
             
             
             response = {
-                msg : "employee with tenant role created successfully"
+                msg : "tenant with employee role created successfully"
             }
 
             return new Response(JSON.stringify(response), {status : 200})
