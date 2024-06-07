@@ -40,13 +40,12 @@ export const POST = async ({ request }) => {
     let response ;
     
         try{
+            //sync the user
             await permit.api.syncUser(user);
-            const response1 = await permit.api.assignRole(assignedRole);
-            const response2 = await permit.api.tenants.listTenantUsers({
-                tenantKey: "todo-tenant",
-                page: 1,
-                perPage: 100,
-            });
+            
+            //assign the user a role 
+            await permit.api.assignRole(assignedRole);
+            
             
             response = {
                 msg : "employee with tenant role created successfully"

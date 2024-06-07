@@ -3,20 +3,15 @@ import { createClient } from '@supabase/supabase-js';
 import { useStore } from '@nanostores/react';
 import {session} from '../store/sessionStore.js';
 import {userData} from "../store/userData.js";
-// import { creatingState } from '../store/creatingState.js';
-// import { refreshTodo } from '../store/refreshTodo.js';
 import {todoList} from "../store/todoList.js";
-// import { updatingState } from '../store/updatingState.js';
 import { jwtDecode } from "jwt-decode";
 
 export default function TodoList(){
 
-    const supabase = createClient('https://asnvuyznngsplkniggui.supabase.co', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFzbnZ1eXpubmdzcGxrbmlnZ3VpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MTUxNzQwNzMsImV4cCI6MjAzMDc1MDA3M30.EJ_FkqZ0CqZpjhI6y5yUBbVe52VXNukS3lnMKXh_vSk')
+    const supabase = createClient(import.meta.env.PUBLIC_SUPABASE_URL, import.meta.env.PUBLIC_SUPABASE_KEY);
     const $todoList = useStore(todoList);
     const $session = useStore(session);
     const $userData = useStore(userData);
-    // const $creatingState = useStore(creatingState);
-    // const $updatingState = useStore(updatingState);
     const [creatingState , setCreatingState] = useState(false);
     const [updatingState , setUpdatingState] = useState({});
     
@@ -29,7 +24,9 @@ export default function TodoList(){
       getTodoData();
     
       console.log("getting session value ...");
+
       const sessionValue = localStorage.getItem("session");
+
       if(sessionValue) {
           session.set(sessionValue)
           console.log(sessionValue);
@@ -125,7 +122,7 @@ export default function TodoList(){
         const response = await res.json();
         if(response.status === "permitted"){
             
-            todoRef.current.value = "";
+            // todoRef.current.value = "";
             setUpdatingState({id : todo_id});
             
         }
@@ -205,7 +202,7 @@ export default function TodoList(){
                               <span className='todo-data' style={todo.isdone ? {textDecoration : "line-through"} : {}}>
                                 {updatingState.id !== todo.id ? todo.todo : null }  
                               </span>
-                              {updatingState.id === todo.id ? <span className='todo-data' ><input type="text" className="editor" /> <button className='todo-ops' onClick={() => {
+                              {updatingState.id === todo.id ? <span className='todo-data' ><input type="text" className="editor" id="editor" /> <button className='todo-ops' onClick={() => {
                                 saveChanges(todo.id , document.getElementById('editor').value);
                               }}>done</button></span> : null}
                           </section>
