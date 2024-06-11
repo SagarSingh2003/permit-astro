@@ -23,8 +23,8 @@ export const GET = async ({request}) =>  {
     try{
 
         const permitted = await permit.check( String(id) , String(operation) , {
-            type: "todo",
-            tenant: "todo-tenant",
+            type: "Blog",
+            tenant: "blog-tenant",
             });
 
         
